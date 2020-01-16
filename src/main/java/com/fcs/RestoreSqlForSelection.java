@@ -7,6 +7,8 @@ import com.fcs.util.RestoreSqlUtil;
 import com.fcs.util.StringConst;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Scanner;
+
 /**
  * restore sql from selection
  * @author ob
@@ -20,12 +22,19 @@ public class RestoreSqlForSelection {
         RestoreSqlForSelection sqlForSelection = new RestoreSqlForSelection();
 //        String sql = "2017-06-23 14:31:27.729 ERROR notParamTest - ==>  Preparing: INSERT INTO t_ml_vop_bil_interface (a,b,c) VALUES (?,?,?)\n";
 //        String param = "2017-06-23 14:31:27.729 ERROR notParamTest - ==>  Parameters: 996aep(String), {succ,?,ess=1}(String), 2017-06-29(Timestamp)\n";
-        if (args == null || args.length == 0) {
-            System.out.println("u are donkey, please put in mybatis log sql sentence which contains Preparing and Parameters.");
-            return;
+//        if (args == null || args.length == 0) {
+//            System.out.println("u are donkey, please put in mybatis log sql sentence which contains Preparing and Parameters.");
+//            System.out.println("u are donkey, please put in mybatis log sql sentence which contains Preparing and Parameters.");
+//            return;
+//        }
+        System.out.println("Please put in mybatis log with Preparing and Parameters....Then use Ctrl+D end the input");
+        Scanner scanner = new Scanner(System.in);
+        StringBuilder sqlText = new StringBuilder();
+        while (scanner.hasNext()) {
+            sqlText.append(scanner.nextLine()).append("\n");
         }
-        String sqlText = args[0];
-        sqlForSelection.actionPerformed(sqlText);
+//        String sqlText = args[0];
+        sqlForSelection.actionPerformed(sqlText.toString());
     }
 
 
@@ -67,9 +76,10 @@ public class RestoreSqlForSelection {
                         isEnd = true;
                     }
                     if(StringUtils.isNotEmpty(preparingLine) && StringUtils.isNotEmpty(parametersLine) && isEnd) {
-                        String preStr = "  restore sql from selection  - ==>";
+                        System.out.println("<<<=====================================================================");
+                        String preStr = "  restore sql from selection  ";
                         System.out.println(preStr);
-                        System.out.println("======================================================================");
+                        System.out.println("======================================================================>>>");
                         String restoreSql = RestoreSqlUtil.restoreSql(preparingLine, parametersLine);
 //                        if(ConfigUtil.getSqlFormat(project)) {
 //                            restoreSql = PrintUtil.format(restoreSql);
